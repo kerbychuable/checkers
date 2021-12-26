@@ -5,6 +5,7 @@ from checkers.board import Board
 class Game:
   def __init__(self, window):
     self.window = window
+    self.init()
 
   def init(self):
     self.board = Board()
