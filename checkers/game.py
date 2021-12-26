@@ -24,6 +24,7 @@ class Game:
       result = self.move(row, col) # Move the piece
       if not result: # Not a valid tile to move on
         self.selected = None # Unselect the piece
+        self.valid_moves = {}
         self.select(row, col) # Select the tile clicked and check if a piece exists
     
     piece = self.board.get_piece(row, col)
