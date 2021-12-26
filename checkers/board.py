@@ -101,8 +101,10 @@ class Board:
       current = self.board[currRow][left] # Get piece in the new coordinates
 
       if current == 0: # Empty tile
-        if jumped: # Jumped over a piece
-          moves[(currRow, left)] = last + skipped
+        if jumped and not last: # Prevent additional move after jumping (except if there is another piece to jump over)
+          break
+        elif jumped: # Jumped over a piece
+          moves[(currRow, left)] = last + jumped
         else: # Moved to an empty tile only
           moves[(currRow, left)] = last
 
@@ -127,14 +129,16 @@ class Board:
     last = []
 
     for currRow in range(start, stop, step):
-      if right > COLS: # Reached the edge of the board
+      if right >= COLS: # Reached the edge of the board
         break
 
       current = self.board[currRow][right] # Get piece in the new coordinates
 
       if current == 0: # Empty tile
-        if jumped: # Jumped over a piece
-          moves[(currRow, right)] = last + skipped
+        if jumped and not last: # Prevent additional move after jumping (except if there is another piece to jump over)
+          break
+        elif jumped: # Jumped over a piece
+          moves[(currRow, right)] = last + jumped
         else: # Moved to an empty tile only
           moves[(currRow, right)] = last
 
