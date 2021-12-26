@@ -115,7 +115,7 @@ class Board:
             row = min(currRow + 3, ROWS)
           moves.update(self.traverse_left(currRow + step, row, step, color, left - 1, jumped=last))
           moves.update(self.traverse_right(currRow + step, row, step, color, left + 1, jumped=last))
-        break
+        break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
       else:
@@ -150,7 +150,7 @@ class Board:
             row = min(currRow + 3, ROWS)
           moves.update(self.traverse_left(currRow + step, row, step, color, right - 1, jumped=last))
           moves.update(self.traverse_right(currRow + step, row, step, color, right + 1, jumped=last))
-        break
+        break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
       else:
