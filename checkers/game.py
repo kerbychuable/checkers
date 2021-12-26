@@ -58,7 +58,7 @@ class Game:
   def draw_valid_moves(self, moves):
     for move in moves:
       row, col = move
-      pygame.draw.circle(self.window, BLUE, (col * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE + TILE_SIZE // 2), TILE_SIZE // 4)
+      pygame.draw.circle(self.window, BLUE, (col * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE + TILE_SIZE // 2), TILE_SIZE // 8)
 
   def update(self):
     self.board.draw(self.window)
