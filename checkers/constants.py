@@ -5,7 +5,7 @@ pygameInfo = pygame.display.Info()
 pygame.quit()
 
 # GUI DISPLAY CONSTANTS
-WIDTH = HEIGHT = min(pygameInfo.current_w, pygameInfo.current_h)
+WIDTH = HEIGHT = min(pygameInfo.current_w, pygameInfo.current_h) - min(pygameInfo.current_w, pygameInfo.current_h) * 0.1
 ROWS = COLS = 8
 TILE_SIZE = WIDTH//COLS
 
