@@ -1,5 +1,5 @@
 import pygame
-from .constants import BLACK, WHITE, BLUE, TILE_SIZE
+from .constants import BLACK, WHITE, BLUE, TILE_SIZE, RED
 from checkers.board import Board
 
 class Game:
@@ -22,9 +22,9 @@ class Game:
   def select(self, row, col):
     if self.selected: # A piece is already selected, try to move to selected tile
       result = self.move(row, col) # Move the piece
+      self.selected = None # Unselect the piece
+      self.valid_moves = {}
       if not result: # Not a valid tile to move on
-        self.selected = None # Unselect the piece
-        self.valid_moves = {}
         self.select(row, col) # Select the tile clicked and check if a piece exists
     
     piece = self.board.get_piece(row, col)
@@ -67,5 +67,7 @@ class Game:
 
   def update(self):
     self.board.draw(self.window)
-    self.draw_valid_moves(self.valid_moves)
+    if self.selected:
+      pygame.draw.circle(self.window, RED, (self.selected.x, self.selected.y), (TILE_SIZE // 2 - TILE_SIZE * 0.08), 5) # Highlight the selected piece
+      self.draw_valid_moves(self.valid_moves)
     pygame.display.update()

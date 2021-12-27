@@ -2,9 +2,6 @@ from .constants import BLACK, WHITE, GREY, TILE_SIZE
 import pygame
 
 class Piece:
-  PADDING = 15 # Piece padding
-  OUTLINE = 2 # Outline width
-
   def __init__(self, row, col, color):
     self.row = row
     self.col = col
@@ -22,8 +19,7 @@ class Piece:
     self.king = True
   
   def draw(self, window):
-    circRadius = TILE_SIZE // 2 - self.PADDING
-    pygame.draw.circle(window, GREY, (self.x, self.y), circRadius + self.OUTLINE) # Draw piece outline
+    circRadius = TILE_SIZE // 2 - TILE_SIZE * 0.10
     pygame.draw.circle(window, self.color, (self.x, self.y), circRadius) # Draw piece
     # if self.king: # King piece
     #   win.blit()

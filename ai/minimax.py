@@ -1,13 +1,13 @@
 from copy import deepcopy
-from checkers.constants import BLACK, WHITE, RED
+from checkers.constants import BLACK, WHITE, RED, TILE_SIZE
 import pygame
 
 def draw_simulation(game, board, piece, valid_moves):
   board.draw(game.window)
-  pygame.draw.circle(game.window, RED, (piece.x, piece.y), 50, 5) # Highlight the selected piece
+  pygame.draw.circle(game.window, RED, (piece.x, piece.y), (TILE_SIZE // 2 - TILE_SIZE * 0.08), 5) # Highlight the selected piece
   game.draw_valid_moves(valid_moves.keys())
   pygame.display.update()
-  pygame.time.delay(20)
+  pygame.time.delay(50)
 
 def simulate_move(piece, coordinates, board, game, jumped):
   board.move(piece, coordinates[0], coordinates[1])
