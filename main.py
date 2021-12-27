@@ -2,6 +2,7 @@ import pygame, sys
 
 from checkers.constants import WIDTH, HEIGHT, TILE_SIZE, BLACK, WHITE
 from checkers.game import Game
+from ai.minimax import minimax
 
 FPS = 30
 
@@ -25,6 +26,11 @@ def main():
       print(game.winner())
       run = False
 
+    if game.turn == WHITE:
+      score, new_board = minimax(game.get_board(), 3, True, game)
+      print(score)
+      game.ai_move(new_board)
+
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         run = False
@@ -33,6 +39,9 @@ def main():
         pos = pygame.mouse.get_pos()
         row, col = get_tile_pos(pos)
         game.select(row, col)
+      
+      if event.type == pygame.KEYDOWN:
+        pass
 
     game.update()
   pygame.quit()

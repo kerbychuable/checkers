@@ -45,7 +45,11 @@ class Game:
     else:
       return False
     return True
-
+  
+  def ai_move(self, board):
+    self.board = board
+    self.end_turn()
+  
   def end_turn(self):
     self.valid_moves = {}
     if self.turn == BLACK:

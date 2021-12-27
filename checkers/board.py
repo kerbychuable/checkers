@@ -94,27 +94,27 @@ class Board:
     moves = {}
     last = []
 
-    for currRow in range(start, stop, step):
+    for curr_row in range(start, stop, step):
       if left < 0: # Reached the edge of the board
         break
 
-      current = self.board[currRow][left] # Get piece in the new coordinates
+      current = self.board[curr_row][left] # Get piece in the new coordinates
 
       if current == 0: # Empty tile
         if jumped and not last: # Prevent additional move after jumping (except if there is another piece to jump over)
           break
         elif jumped: # Jumped over a piece
-          moves[(currRow, left)] = last + jumped
+          moves[(curr_row, left)] = last + jumped
         else: # Moved to an empty tile only
-          moves[(currRow, left)] = last
+          moves[(curr_row, left)] = last
 
         if last: # Jumped over enemy piece, check for possible additional jumps
           if step == -1: # Moving up
-            row = max(currRow - 3, 0)
+            row = max(curr_row - 3, 0)
           else: # Moving down
-            row = min(currRow + 3, ROWS)
-          moves.update(self.traverse_left(currRow + step, row, step, color, left - 1, jumped=last))
-          moves.update(self.traverse_right(currRow + step, row, step, color, left + 1, jumped=last))
+            row = min(curr_row + 3, ROWS)
+          moves.update(self.traverse_left(curr_row + step, row, step, color, left - 1, jumped=last))
+          moves.update(self.traverse_right(curr_row + step, row, step, color, left + 1, jumped=last))
         break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
@@ -129,27 +129,27 @@ class Board:
     moves = {}
     last = []
 
-    for currRow in range(start, stop, step):
+    for curr_row in range(start, stop, step):
       if right >= COLS: # Reached the edge of the board
         break
 
-      current = self.board[currRow][right] # Get piece in the new coordinates
+      current = self.board[curr_row][right] # Get piece in the new coordinates
 
       if current == 0: # Empty tile
         if jumped and not last: # Prevent additional move after jumping (except if there is another piece to jump over)
           break
         elif jumped: # Jumped over a piece
-          moves[(currRow, right)] = last + jumped
+          moves[(curr_row, right)] = last + jumped
         else: # Moved to an empty tile only
-          moves[(currRow, right)] = last
+          moves[(curr_row, right)] = last
 
         if last: # Jumped over enemy piece, check for possible additional jumps
           if step == -1: # Moving up
-            row = max(currRow - 3, 0)
+            row = max(curr_row - 3, 0)
           else: # Moving down
-            row = min(currRow + 3, ROWS)
-          moves.update(self.traverse_left(currRow + step, row, step, color, right - 1, jumped=last))
-          moves.update(self.traverse_right(currRow + step, row, step, color, right + 1, jumped=last))
+            row = min(curr_row + 3, ROWS)
+          moves.update(self.traverse_left(curr_row + step, row, step, color, right - 1, jumped=last))
+          moves.update(self.traverse_right(curr_row + step, row, step, color, right + 1, jumped=last))
         break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
@@ -159,3 +159,6 @@ class Board:
       right += 1
     
     return moves
+
+  def evaluate(self):
+    return self.white_rem - self.black_rem + (self.white_kings * 0.5 - self.black_kings * 0.5)
