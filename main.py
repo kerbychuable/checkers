@@ -23,11 +23,11 @@ def main():
     clock.tick(FPS)
 
     if game.winner() != None:
-      print(game.winner())
+      print(game.winner() + " wins!")
       run = False
 
     if game.turn == WHITE:
-      score, new_board = minimax(game.get_board(), 3, True, game)
+      score, new_board = minimax(game.get_board(), 4, True, game)
       print(score)
       game.ai_move(new_board)
 

@@ -50,9 +50,9 @@ class Board:
 
   def winner(self): # Check for game winner
     if self.white_rem <= 0:
-      return BLACK
+      return "Black"
     elif self.black_rem <= 0:
-      return WHITE
+      return "White"
     return None
 
   def remove(self, pieces): # Remove a piece from the board (eaten)

@@ -20,7 +20,7 @@ def get_all_moves(board, color, game):
   for piece in board.get_all_pieces(color): # Get all pieces of active player
     valid_moves = board.get_valid_moves(piece)
     for move, jumped in valid_moves.items():
-      draw_simulation(game, board, piece, valid_moves)
+      # draw_simulation(game, board, piece, valid_moves)
       use_board = deepcopy(board) # Deep copy the board to avoid changing it in the "live" environment
       use_piece = use_board.get_piece(piece.row, piece.col)  # Get the piece to be moved on the temporary board rather than the actual to prevent changes
       new_board = simulate_move(use_piece, move, use_board, game, jumped) # Simulate the piece's move on the copied board
