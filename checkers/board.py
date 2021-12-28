@@ -110,7 +110,7 @@ class Board:
 
         if last: # Jumped over enemy piece, check for possible additional jumps
           if step == -1: # Moving up
-            row = max(curr_row - 3, 0)
+            row = max(curr_row - 3, -1)
           else: # Moving down
             row = min(curr_row + 3, ROWS)
           moves.update(self.traverse_left(curr_row + step, row, step, color, left - 1, jumped=last))
@@ -145,7 +145,7 @@ class Board:
 
         if last: # Jumped over enemy piece, check for possible additional jumps
           if step == -1: # Moving up
-            row = max(curr_row - 3, 0)
+            row = max(curr_row - 3, -1)
           else: # Moving down
             row = min(curr_row + 3, ROWS)
           moves.update(self.traverse_left(curr_row + step, row, step, color, right - 1, jumped=last))
