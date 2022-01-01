@@ -17,3 +17,6 @@ LIGHTBROWN = (255, 206, 158)
 BROWN = (209, 139, 71)
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
+
+# KING PIECE
+CROWN = pygame.transform.scale(pygame.image.load('assets/crown.png'), (TILE_SIZE // 2, TILE_SIZE // 2))

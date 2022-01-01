@@ -1,4 +1,4 @@
-from .constants import BLACK, WHITE, GREY, TILE_SIZE
+from .constants import BLACK, WHITE, GREY, TILE_SIZE, CROWN
 import pygame
 
 class Piece:
@@ -21,8 +21,8 @@ class Piece:
   def draw(self, window):
     circRadius = TILE_SIZE // 2 - TILE_SIZE * 0.10
     pygame.draw.circle(window, self.color, (self.x, self.y), circRadius) # Draw piece
-    # if self.king: # King piece
-    #   win.blit()
+    if self.king: # King piece
+      window.blit(CROWN, (self.x - CROWN.get_width() // 2, self.y - CROWN.get_height() // 2))
 
   def move(self, row, col):
     self.row = row
