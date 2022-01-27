@@ -27,7 +27,7 @@ def get_all_moves(board, color, game):
       moves.append(new_board)
   return moves
 
-def minimax(board, depth, ai, game):
+def minimax(board, depth, ai, game, alpha, beta):
   if depth == 0 or board.winner() != None: # Reached last node | someone won
     return board.evaluate(), board
 
@@ -38,7 +38,47 @@ def minimax(board, depth, ai, game):
     moves_len = len(moves) - 1
     print('ai ' + str(moves_len))
     for index, move in enumerate(moves):
-      score = minimax(move, depth-1, False, game)[0] # Only get the score
+      score = minimax(move, depth-1, False, game, alpha, beta)[0] # Only get the score
+      maxScore = max(maxScore, score)
+      alpha = max(alpha, maxScore)
+      if maxScore == score:
+        best_move = move
+      if index == moves_len and maxScore == '-inf':
+        best_move = move
+      if beta <= alpha:
+        break
+    return maxScore, best_move
+  else: # Player's turn
+    minScore = float('inf')
+    best_move = None
+    moves = get_all_moves(board, BLACK, game)
+    moves_len = len(moves) - 1
+    print('player ' + str(moves_len))
+    for index, move in enumerate(moves):
+      score = minimax(move, depth-1, True, game, alpha, beta)[0] # Only get the score
+      minScore = min(minScore, score)
+      beta = min(beta, minScore)
+      if minScore == score:
+        best_move = move
+      if index == moves_len and minScore == 'inf':
+        best_move = move
+      if alpha <= beta:
+        break
+
+    return minScore, best_move
+
+def minimax_no_ab(board, depth, ai, game):
+  if depth == 0 or board.winner() != None: # Reached last node | someone won
+    return board.evaluate(), board
+
+  if ai: # AI's turn
+    maxScore = float('-inf')
+    best_move = None
+    moves = get_all_moves(board, WHITE, game)
+    moves_len = len(moves) - 1
+    print('ai ' + str(moves_len))
+    for index, move in enumerate(moves):
+      score = minimax_no_ab(move, depth-1, False, game)[0] # Only get the score
       maxScore = max(maxScore, score)
       if maxScore == score:
         best_move = move
@@ -52,7 +92,7 @@ def minimax(board, depth, ai, game):
     moves_len = len(moves) - 1
     print('player ' + str(moves_len))
     for index, move in enumerate(moves):
-      score = minimax(move, depth-1, True, game)[0] # Only get the score
+      score = minimax_no_ab(move, depth-1, True, game)[0] # Only get the score
       minScore = min(minScore, score)
       if minScore == score:
         best_move = move
