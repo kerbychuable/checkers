@@ -34,20 +34,29 @@ def minimax(board, depth, ai, game):
   if ai: # AI's turn
     maxScore = float('-inf')
     best_move = None
-    for move in get_all_moves(board, WHITE, game):
-      score = minimax(move, depth-1, False, game)[0] # Ignore other best moves for optimization
+    moves = get_all_moves(board, WHITE, game)
+    moves_len = len(moves) - 1
+    print('ai ' + str(moves_len))
+    for index, move in enumerate(moves):
+      score = minimax(move, depth-1, False, game)[0] # Only get the score
       maxScore = max(maxScore, score)
       if maxScore == score:
         best_move = move
-
+      if index == moves_len and maxScore == '-inf':
+        best_move = move
     return maxScore, best_move
   else: # Player's turn
     minScore = float('inf')
     best_move = None
-    for move in get_all_moves(board, BLACK, game):
-      score = minimax(move, depth-1, True, game)[0] # Ignore other best moves for optimization
+    moves = get_all_moves(board, BLACK, game)
+    moves_len = len(moves) - 1
+    print('player ' + str(moves_len))
+    for index, move in enumerate(moves):
+      score = minimax(move, depth-1, True, game)[0] # Only get the score
       minScore = min(minScore, score)
       if minScore == score:
+        best_move = move
+      if index == moves_len and minScore == 'inf':
         best_move = move
 
     return minScore, best_move
