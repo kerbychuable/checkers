@@ -23,6 +23,18 @@ class Board:
         else: # On a light brown tile (should be empty)
           self.board[row].append(0)
 
+  def ascii_draw(self):
+    for row in range(ROWS):
+      for col in range(COLS):
+        if self.board[row][col] == 0:
+          print('-', end='')
+        elif self.board[row][col].color == WHITE:
+          print('W', end='')
+        elif self.board[row][col].color == BLACK:
+          print('B', end='')
+      print()
+    print('--------')
+
   def draw_tiles(self, window): # Draw outline (grid)
     window.fill(BROWN)
     for row in range(ROWS):
@@ -61,8 +73,12 @@ class Board:
         self.board[piece.row][piece.col] = 0
         if piece.color == BLACK:
           self.black_rem -= 1
+          if piece.king:
+            self.black_kings -= 1
         else:
           self.white_rem -= 1
+          if piece.king:
+            self.white_kings -= 1
 
   def move(self, piece, row, col):
     self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col] # Update board
@@ -113,8 +129,8 @@ class Board:
             row = max(curr_row - 3, -1)
           else: # Moving down
             row = min(curr_row + 3, ROWS)
-          moves.update(self.traverse_left(curr_row + step, row, step, color, left - 1, jumped=last))
-          moves.update(self.traverse_right(curr_row + step, row, step, color, left + 1, jumped=last))
+          moves.update(self.traverse_left(curr_row + step, row, step, color, left - 1, jumped=jumped+last))
+          moves.update(self.traverse_right(curr_row + step, row, step, color, left + 1, jumped=jumped+last))
         break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
@@ -148,8 +164,8 @@ class Board:
             row = max(curr_row - 3, -1)
           else: # Moving down
             row = min(curr_row + 3, ROWS)
-          moves.update(self.traverse_left(curr_row + step, row, step, color, right - 1, jumped=last))
-          moves.update(self.traverse_right(curr_row + step, row, step, color, right + 1, jumped=last))
+          moves.update(self.traverse_left(curr_row + step, row, step, color, right - 1, jumped=jumped+last))
+          moves.update(self.traverse_right(curr_row + step, row, step, color, right + 1, jumped=jumped+last))
         break # prevent additional move (move 2 empty tiles in 1 turn)
       elif current.color == color: # Own piece
         break # Ignore, not a valid move
