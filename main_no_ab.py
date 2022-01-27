@@ -2,7 +2,7 @@ import pygame, sys
 
 from checkers.constants import WIDTH, HEIGHT, TILE_SIZE, BLACK, WHITE
 from checkers.game import Game
-from ai.minimax import minimax
+from ai.minimax import minimax_no_ab
 from datetime import datetime
 
 FPS = 30
@@ -29,7 +29,7 @@ def main():
 
     if game.turn == WHITE:
       start_time = datetime.now()
-      score, new_board = minimax(game.get_board(), 3, True, game, float('-inf'), float('inf'))
+      score, new_board = minimax_no_ab(game.get_board(), 3, True, game)
       # print(score)
       game.ai_move(new_board)
       end_time = datetime.now()
