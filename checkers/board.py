@@ -52,12 +52,24 @@ class Board:
   def get_piece(self, row, col): # check a tile and return the state
     return self.board[row][col]
 
-  def get_all_pieces(self, color):
+  def get_all_pieces(self, color): # return a list of pieces that can move (force capture enabled = only those that can capture can move)
     pieces = []
+    predatorPieces = []
     for row in self.board: # check each row
       for tile in row: # check each tile (column)
         if tile != 0 and tile.color == color: # check if there is a piece and it belongs to the active player
           pieces.append(tile)
+
+    for piece in pieces:
+      validMoves = self.get_valid_moves(piece)
+      for move, jumped in validMoves.items():
+        if jumped:
+          predatorPieces.append(piece)
+
+    if predatorPieces: # one or more pieces can eat the opponent's piece/s
+      pieces.clear()
+      pieces = predatorPieces
+      
     return pieces
 
   def winner(self): # Check for game winner
@@ -84,7 +96,7 @@ class Board:
     self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col] # Update board
     piece.move(row, col) # Update piece's internal knowledge of its location
 
-    if row == ROWS-1 or row == 0: # piece reached the end
+    if (row == ROWS-1 or row == 0) and not piece.king: # piece reached the end and not yet a king
       piece.set_king()
       if piece.color == BLACK:
         self.black_kings += 1
