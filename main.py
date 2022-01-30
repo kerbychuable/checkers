@@ -29,7 +29,7 @@ def main():
 
     if game.turn == WHITE:
       start_time = datetime.now()
-      score, new_board = minimax(game.get_board(), 3, True, game, float('-inf'), float('inf'))
+      score, new_board = minimax(game.get_board(), 3, True, float('-inf'), float('inf'))
       # print(score)
       game.ai_move(new_board)
       end_time = datetime.now()

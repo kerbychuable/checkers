@@ -66,6 +66,7 @@ class Game:
       pygame.draw.circle(self.window, BLUE, (col * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE + TILE_SIZE // 2), TILE_SIZE // 8)
 
   def update(self):
+    # self.board.ascii_draw()
     self.board.draw(self.window)
     if self.selected:
       pygame.draw.circle(self.window, RED, (self.selected.x, self.selected.y), (TILE_SIZE // 2 - TILE_SIZE * 0.08), 5) # Highlight the selected piece
