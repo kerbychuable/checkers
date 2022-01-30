@@ -18,6 +18,7 @@ def get_tile_pos(pos):
 
 def main():
   run = True
+  doOnce = True
   clock = pygame.time.Clock()
   game = Game(window)
   while run:
@@ -35,6 +36,11 @@ def main():
       end_time = datetime.now()
       time_taken = end_time - start_time
       print(str(time_taken.total_seconds()))
+      doOnce = True
+
+    if game.turn == BLACK and doOnce:
+      game.find_moveable_pieces()
+      doOnce = False
 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:

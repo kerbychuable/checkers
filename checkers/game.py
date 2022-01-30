@@ -12,6 +12,7 @@ class Game:
     self.turn = BLACK
     self.selected = None
     self.valid_moves = {}
+    self.moveable_pieces = []
 
   def winner(self):
     return self.board.winner()
@@ -23,16 +24,14 @@ class Game:
     if self.selected: # A piece is already selected, try to move to selected tile
       result = self.move(row, col) # Move the piece
       self.selected = None # Unselect the piece
-      self.valid_moves = {}
+      self.valid_moves = {} # Clear the valid moves dictionary to free up memory
       if not result: # Not a valid tile to move on
         self.select(row, col) # Select the tile clicked and check if a piece exists
     
     piece = self.board.get_piece(row, col)
-    if piece != 0 and piece.color == self.turn: # Check if active player's piece is selected
+    if piece != 0 and piece.color == self.turn and piece in self.moveable_pieces: # Check if active player's moveable piece is selected
       self.selected = piece
       self.valid_moves = self.board.get_valid_moves(piece) # Get the piece's valid moves
-      return True # A piece has been selected
-    return False # Active player did not select its own piece
 
   def move(self, row, col):
     piece = self.board.get_piece(row, col)
@@ -51,7 +50,8 @@ class Game:
     self.end_turn()
   
   def end_turn(self):
-    self.valid_moves = {}
+    self.valid_moves = {} # Clear the valid moves dictionary to free up memory
+    self.moveable_pieces = [] # Clear the moveable pieces list to free up memory
     if self.turn == BLACK:
       self.turn = WHITE
     else:
@@ -64,6 +64,9 @@ class Game:
     for move in moves:
       row, col = move
       pygame.draw.circle(self.window, BLUE, (col * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE + TILE_SIZE // 2), TILE_SIZE // 8)
+
+  def find_moveable_pieces(self):
+    self.moveable_pieces = self.board.get_all_pieces(BLACK)
 
   def update(self):
     # self.board.ascii_draw()
