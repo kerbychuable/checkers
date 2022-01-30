@@ -19,6 +19,9 @@ def get_tile_pos(pos):
 def main():
   run = True
   doOnce = True
+  numCuts = numNodes = numStates = 0
+  depth = 3
+
   clock = pygame.time.Clock()
   game = Game(window)
   while run:
@@ -27,20 +30,20 @@ def main():
     if game.winner() != None:
       print(game.winner() + " wins!")
       # run = False
+    else:
+      if game.turn == WHITE:
+        cuts = nodes = states = 0
+        start_time = datetime.now()
+        score, new_board, cuts, nodes, states = minimax(game.get_board(), depth, depth, True, float('-inf'), float('inf'))
+        game.ai_move(new_board)
+        end_time = datetime.now()
+        time_taken = end_time - start_time
+        print(str(time_taken.total_seconds()) + 's\n' + str(states) + ' nodes visited\n' + str(nodes) + ' nodes generated\n' + str(cuts) + ' cutoffs')
+        doOnce = True
 
-    if game.turn == WHITE:
-      start_time = datetime.now()
-      score, new_board = minimax(game.get_board(), 3, True, float('-inf'), float('inf'))
-      # print(score)
-      game.ai_move(new_board)
-      end_time = datetime.now()
-      time_taken = end_time - start_time
-      print(str(time_taken.total_seconds()))
-      doOnce = True
-
-    if game.turn == BLACK and doOnce:
-      game.find_moveable_pieces()
-      doOnce = False
+      if game.turn == BLACK and doOnce:
+        game.find_moveable_pieces()
+        doOnce = False
 
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
