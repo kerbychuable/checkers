@@ -2,7 +2,7 @@ import pygame, sys
 
 from checkers.constants import WIDTH, HEIGHT, TILE_SIZE, BLACK, WHITE
 from checkers.game import Game
-from ai.minimax import minimax
+from ai.minimax import minimax, move_ordering
 from datetime import datetime
 
 FPS = 30
@@ -20,7 +20,11 @@ def main():
   run = True
   doOnce = True
   numCuts = numNodes = numStates = 0
-  depth = 3
+  killerHeuristic = []
+
+  # CONFIG
+  depth = 5
+  bool_move_ordering = False
 
   clock = pygame.time.Clock()
   game = Game(window)
@@ -29,12 +33,16 @@ def main():
 
     if game.winner() != None:
       print(game.winner() + " wins!")
-      # run = False
+      run = False
     else:
       if game.turn == WHITE:
         cuts = nodes = states = 0
         start_time = datetime.now()
-        score, new_board, cuts, nodes, states = minimax(game.get_board(), depth, depth, True, float('-inf'), float('inf'))
+        if bool_move_ordering:
+          score, new_board, cuts, nodes, states, killerMoves = move_ordering(game.get_board(), depth, depth, True, float('-inf'), float('inf'), killerHeuristic)
+          killerHeuristic += killerMoves
+        else:
+          score, new_board, cuts, nodes, states = minimax(game.get_board(), depth, depth, True, float('-inf'), float('inf'))
         game.ai_move(new_board)
         end_time = datetime.now()
         time_taken = end_time - start_time
