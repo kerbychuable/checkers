@@ -115,6 +115,16 @@ class Board:
     if piece.color == WHITE or piece.king: # Move down
       moves.update(self.traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left))
       moves.update(self.traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
+    
+    # Force capture moves only
+    tempMoves = {}
+    for move, jumped in moves.items():
+      if jumped:
+        tempMoves[move] = jumped
+
+    if tempMoves: # Remove non-capture moves
+      moves.clear()
+      moves = tempMoves
 
     return moves
   
