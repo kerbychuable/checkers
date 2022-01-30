@@ -36,6 +36,11 @@ def main():
       run = False
     else:
       if game.turn == WHITE:
+        game.find_moveable_pieces()
+        if game.moveable_pieces == None:
+          game.board.white_rem = 0
+          print('No moves left for white!')
+          continue
         cuts = nodes = states = 0
         start_time = datetime.now()
         if bool_move_ordering:
@@ -51,6 +56,10 @@ def main():
 
       if game.turn == BLACK and doOnce:
         game.find_moveable_pieces()
+        if game.moveable_pieces == None:
+          game.board.black_rem = 0
+          print('No moves left for black!')
+          continue
         doOnce = False
 
     for event in pygame.event.get():

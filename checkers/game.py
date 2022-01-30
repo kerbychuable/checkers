@@ -66,7 +66,7 @@ class Game:
       pygame.draw.circle(self.window, BLUE, (col * TILE_SIZE + TILE_SIZE // 2, row * TILE_SIZE + TILE_SIZE // 2), TILE_SIZE // 8)
 
   def find_moveable_pieces(self):
-    self.moveable_pieces = self.board.get_all_pieces(BLACK)
+    self.moveable_pieces = self.board.get_all_pieces(self.turn)
 
   def update(self):
     # self.board.ascii_draw()
