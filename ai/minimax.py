@@ -62,7 +62,7 @@ def minimax(board, depth, root_depth, maximizer, alpha, beta):
       beta = min(beta, minScore)
       if minScore == score:
         best_move = move
-      if alpha <= beta:
+      if beta <= alpha:
         cuts += 1
         break
 
