@@ -138,7 +138,7 @@ def move_ordering(board, depth, root_depth, maximizer, alpha, beta, best_moves):
       beta = min(beta, minScore)
       if minScore == score:
         best_move = move
-      if alpha <= beta:
+      if beta <= alpha:
         cuts += 1
         killer_moves.append({
           "hash": hash(move),
