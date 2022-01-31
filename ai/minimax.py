@@ -107,17 +107,17 @@ def move_ordering(board, depth, root_depth, maximizer, alpha, beta, best_moves):
   else: # Player's turn
     minScore = float('inf')
     moves = get_all_moves(board, BLACK)
-    hashed_moves = []
+    hashed_moves, killer_moves_copy = [], killer_moves
 
     for move in moves:
       hashed_moves.append(hash(move))
 
-    for killer_move in killer_moves: # remove non-valid killer moves and those not in the same depth search
+    for killer_move in killer_moves_copy: # remove non-valid killer moves and those not in the same depth search
       if killer_move['move'] not in hashed_moves or killer_move['depth'] != depth: # Compare hash value of board objects
-        killer_moves.remove(killer_move)
+        killer_moves_copy.remove(killer_move)
 
     if killer_moves:
-      sort = sorted(killer_moves, key = lambda move: move['score'], reverse=True)
+      sort = sorted(killer_moves_copy, key = lambda move: move['score'], reverse=True)
       move = sort.pop()
       if move['move'] in moves:
         moves.remove(move['move']) # Place move as first iterable

@@ -199,4 +199,4 @@ class Board:
     return moves
 
   def evaluate(self):
-    return self.white_rem - self.black_rem + (self.white_kings * 0.5 - self.black_kings * 0.5)
+    return self.white_rem + self.white_kings - self.black_rem - self.black_kings
