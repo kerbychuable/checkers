@@ -19,11 +19,11 @@ def get_tile_pos(pos):
 def main():
   run = True
   doOnce = True
-  numCuts = numNodes = numStates = 0
+  totalTime = numCuts = numNodes = numStates = 0
   killerHeuristic = []
 
   # CONFIG
-  depth = 5
+  depth = 3
   bool_move_ordering = False
 
   clock = pygame.time.Clock()
@@ -52,6 +52,10 @@ def main():
         end_time = datetime.now()
         time_taken = end_time - start_time
         print(str(time_taken.total_seconds()) + 's\n' + str(states) + ' nodes visited\n' + str(nodes) + ' nodes generated\n' + str(cuts) + ' cutoffs')
+        totalTime += time_taken.total_seconds()
+        numCuts += cuts
+        numNodes += nodes
+        numStates += states
         doOnce = True
 
       if game.turn == BLACK and doOnce:
@@ -75,6 +79,10 @@ def main():
         pass
 
     game.update()
+  print('Total Move Time by AI: ', totalTime)
+  print('Total Nodes Generated:', numNodes)
+  print('Total Nodes Visited:', numStates)
+  print('Total Beta Cutoffs:', numCuts)
   pygame.quit()
 
 if __name__ == '__main__':
