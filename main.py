@@ -19,7 +19,7 @@ def get_tile_pos(pos):
 def main():
   run = True
   doOnce = True
-  totalTime = numCuts = numNodes = numStates = 0
+  totalTime = numCuts = numNodes = numStates = count = 0
   killerHeuristic = []
 
   # CONFIG
@@ -42,10 +42,13 @@ def main():
           print('No moves left for white!')
           continue
         cuts = nodes = states = 0
+        for i in range(count):
+          killerHeuristic.pop()
         start_time = datetime.now()
         if bool_move_ordering:
           score, new_board, cuts, nodes, states, killerMoves = move_ordering(game.get_board(), depth, depth, True, float('-inf'), float('inf'), killerHeuristic)
           killerHeuristic += killerMoves
+          count = len(killerMoves)
         else:
           score, new_board, cuts, nodes, states = minimax(game.get_board(), depth, depth, True, float('-inf'), float('inf'))
         game.ai_move(new_board)
