@@ -199,4 +199,25 @@ class Board:
     return moves
 
   def evaluate(self):
-    return self.white_rem + self.white_kings - self.black_rem - self.black_kings
+    white_score = black_score = 0
+    for row in self.board: # check each row
+      for tile in row: # check each tile (column)
+        if tile != 0: # check if there is a piece
+          if tile.color == BLACK:
+            black_score += 1
+            if tile.king: # Favor king
+              black_score += 3
+            if 2 < tile.row < 5 and 0 < tile.col < 7: # Favor center
+              black_score += 2
+            elif tile.row == 7: # Prioritize front pieces
+              black_score += 4
+          elif tile.color == WHITE:
+            white_score += 1
+            if tile.king: # Favor king
+              white_score += 3
+            if 2 < tile.row < 5 and 0 < tile.col < 7: # Favor center
+              white_score += 2
+            elif tile.row == 0: # Prioritize front pieces
+              white_score += 4
+
+    return white_score - black_score
