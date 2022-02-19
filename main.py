@@ -19,12 +19,13 @@ def get_tile_pos(pos):
 def main():
   run = True
   doOnce = True
-  totalTime = numCuts = numNodes = numStates = count = 0
+  count = 0
+  totalTime, numCuts, numNodes, numStates = [], [], [], []
   killerHeuristic = []
 
   # CONFIG
-  depth = 3
-  bool_move_ordering = False
+  depth = 8
+  bool_move_ordering = True
 
   clock = pygame.time.Clock()
   game = Game(window)
@@ -55,10 +56,10 @@ def main():
         end_time = datetime.now()
         time_taken = end_time - start_time
         print(str(time_taken.total_seconds()) + 's\n' + str(states) + ' nodes visited\n' + str(nodes) + ' nodes generated\n' + str(cuts) + ' cutoffs')
-        totalTime += time_taken.total_seconds()
-        numCuts += cuts
-        numNodes += nodes
-        numStates += states
+        totalTime.append(time_taken.total_seconds())
+        numCuts.append(cuts)
+        numNodes.append(nodes)
+        numStates.append(states)
         doOnce = True
 
       if game.turn == BLACK and doOnce:
@@ -82,10 +83,14 @@ def main():
         pass
 
     game.update()
-  print('Total Move Time by AI: ', totalTime)
-  print('Total Nodes Generated:', numNodes)
-  print('Total Nodes Visited:', numStates)
-  print('Total Beta Cutoffs:', numCuts)
+  print('Total Move Time by AI: ', sum(totalTime))
+  print('Total Nodes Generated:', sum(numNodes))
+  print('Total Nodes Visited:', sum(numStates))
+  print('Total Beta Cutoffs:', sum(numCuts))
+  print('Average Move Time by AI: ', sum(totalTime)/len(totalTime))
+  print('Average Nodes Generated:', sum(numNodes)//len(numNodes))
+  print('Average Nodes Visited:', sum(numStates)//len(numStates))
+  print('Average Beta Cutoffs:', sum(numCuts)//len(numCuts))
   pygame.quit()
 
 if __name__ == '__main__':
